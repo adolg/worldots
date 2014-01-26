@@ -1,0 +1,150 @@
+Automatically resolving -r against ruleset directory
+----------------------------------------------------
+It would be convenient to be able to start the program with:
+
+	hnefatafl -r tablut
+
+Rather than:
+
+	hnefatafl -r /usr/local/share/hnefatafl/rules/tablut
+
+This would be easy to implement: simply extract `$(PREFIX_DATA_RULES)`
+into the program as a `-DHT_*` macro and then resolve `-r` paths against
+it if the file indicated by `-r` isn't found.
+
+1.	Search `${HOME}/hnefatafl/rules` for the `-r` file.
+
+2.	Search `$(PREFIX_DATA_RULES)` for the `-r` file.
+
+Then we should also change the location of the default ruleset symlink:
+
+1.	Check if `${HOME}/.hnefataflrc` exists.
+
+2.	Check if `${HOME}/hnefatafl/hnefataflrc` exists.
+
+3.	Use `$(PREFIX_DATA_RULES)/hnefatafl11_v1` (do not auto-create
+	symlinks).
+
+Try `fopen` the RC file. If it returns `NULL`, then it doesn't exist and
+we check the next one. Fail only if step 3 fails. Then we can drop the
+POSIX dependency (which is not possible with `stat`).
+
+
+
+Computer player
+---------------
+The problem with the AI is that it is too slow. If you try `p 1 m 4` in
+ordinary hnefatafl (`hnefatafl11_v1`), the computer checks 6.7 million
+positions for the first move. However, you can easily use `p 1 m 5` on
+the very small boards. Without making any calculations, you can guess
+that the game is too complex for the minimax algorithm.
+
+Therefore I don't think it's valuable to optimize it further. I think
+the best option is to write a new computer player using the Monte Carlo
+algorithm (read up on computer wéiqí). Note that the program allows for
+several computer players to co-exist, so you can have both the minimax
+and Monte Carlo players in the same binary (even playing against each
+other).
+
+
+
+Makefile
+--------
+### GCC ###
+It may be possible to optimize the program further by profiling it, but
+I haven't done it yet because you can't assume that everyone has GCC and
+there are still code optimizations with higher priority (see
+`todo_ai.txt` -- the program itself is already extremely lightweight and
+fast; the only thing that needs to be faster is the computer player).
+
+### `make all` doesn't detect `.h` file changes ###
+The makefile doesn't rebuild when a header file has changed. It only
+reacts when a `.c` file has changed. I thought using `.d` files would
+solve this, but I've apparently misunderstood something.
+
+
+
+Code
+----
+### Inline ###
+In C99, `inline` means to inline the function with a function body, and
+`extern inline` to inline the function without one.
+
+In traditonal GCC, `inline` means to inline the function without a
+function body, and `extern inline` to inline the function with one.
+
+A `HT_INLN` (similar to `HT_RSTR`) should be added to `config.h` and
+enabled when `HT_C99` is defined. This should inline functions.
+
+Preferably it should still be possible to declare a function in a header
+file and define it in a source file, since C89 does not have inline. In
+C99, an inline function should be defined in the compilation unit that
+it's declared in.
+
+Since GCC inlines automatically, I haven't done this, nor decided on
+whether it should be done at all since the code must work in C89 as
+well.
+
+
+
+Style
+-----
+*	Remove unused `include`.
+
+*	Everything in `*.h` files should be `extern`.
+
+*	Everything that can be `const` should be.
+
+*	Everything that can be `HT_RSTR` (`restrict` pointer) should be.
+
+### Splint ###
+*	Splint gives the following false positives:
+
+	*	`-topuse`
+
+	*	`-exportheaders`
+
+	It doesn't understand that things exported in `*.c` files are
+	declared in corresponding `*.h` files.
+
+	It further doesn't understand that struct variables are used,
+	and reports every single struct variable as unused.
+
+
+
+Translation
+-----------
+It would be nice to have at least the Nordic languages, especially
+Icelandic and Finnish.
+
+LANGUAGE	ISO 639-2
+Danish		dan
+Faroese		fao
+Finnish		fin
+Icelandic	ice / isl
+Nynorsk		nno
+Old West Norse	non
+
+
+
+HT_UI_XLIB
+----------
+### Low color XPM files ###
+Maybe the amount of colors can be reduced in the `p*` XPM files (for
+pieces), by using, perhaps, GIMP -> `color` -> `palette map` -- however
+that particular solution screws up black colors.
+
+This should definitely be done if the colors look bad on whatever the
+lowest amount of non-monochrome colors is.
+
+### Load XPM files without the XPM library ###
+It's apparently possible to use `XReadBitmapFile` and
+`XCreatePixmapFromBitmapData` to load XPM files (and later paint them in
+color with transparent pixels using clipmasks). I just haven't figured
+out how.
+
+This should absolutely be done as soon as possible. The XPM library is
+non-standard and dropping a dependency is always desirable. However, XPM
+files should be painted in color, and transparency must be supported for
+pieces.
+

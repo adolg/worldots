@@ -1,0 +1,10 @@
+# Updated by fix_deps.py
+newlib/Release/src/io/iotextparse_x86_32.o: src/io/iotextparse.c \
+ src/util/boolt.h src/config.h src/io/iotextparse.h src/util/funct.h \
+ src/io/iotextparset.h
+src/io/iotextparse.c:
+src/util/boolt.h:
+src/config.h:
+src/io/iotextparse.h:
+src/util/funct.h:
+src/io/iotextparset.h:

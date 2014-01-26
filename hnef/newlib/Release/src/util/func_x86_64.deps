@@ -1,0 +1,8 @@
+# Updated by fix_deps.py
+newlib/Release/src/util/func_x86_64.o: src/util/func.c src/util/func.h \
+ src/util/boolt.h src/util/funct.h src/lang.h
+src/util/func.c:
+src/util/func.h:
+src/util/boolt.h:
+src/util/funct.h:
+src/lang.h:

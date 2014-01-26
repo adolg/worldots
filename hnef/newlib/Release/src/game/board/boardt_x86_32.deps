@@ -1,0 +1,5 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/board/boardt_x86_32.o: src/game/board/boardt.c \
+ src/game/board/boardt.h
+src/game/board/boardt.c:
+src/game/board/boardt.h:

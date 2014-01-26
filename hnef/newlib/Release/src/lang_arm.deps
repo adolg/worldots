@@ -1,0 +1,4 @@
+# Updated by fix_deps.py
+newlib/Release/src/lang_arm.o: src/lang.c src/lang.h
+src/lang.c:
+src/lang.h:

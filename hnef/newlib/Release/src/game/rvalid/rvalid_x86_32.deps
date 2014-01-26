@@ -1,0 +1,42 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/rvalid/rvalid_x86_32.o: src/game/rvalid/rvalid.c \
+ src/game/board/board.h src/game/aim/aimhasht.h src/game/board/boardt.h \
+ src/config.h src/util/funct.h src/game/gamet.h src/game/board/listmht.h \
+ src/game/board/moveht.h src/util/boolt.h src/game/rules/rulesett.h \
+ src/game/board/boardt.h src/game/rules/type_piecet.h \
+ src/game/rules/type_squaret.h src/game/rules/types.h \
+ src/game/board/listmt.h src/game/board/movet.h src/game/player.h \
+ src/game/gamet.h src/game/playert.h src/game/aim/aiminimaxt.h \
+ src/game/ai/ait.h src/lang.h src/util/num.h src/util/boolt.h \
+ src/game/playert.h src/game/rvalid/rvalid.h src/game/rules/type_piece.h \
+ src/game/rules/rulesett.h src/game/rules/type_square.h
+src/game/rvalid/rvalid.c:
+src/game/board/board.h:
+src/game/aim/aimhasht.h:
+src/game/board/boardt.h:
+src/config.h:
+src/util/funct.h:
+src/game/gamet.h:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/util/boolt.h:
+src/game/rules/rulesett.h:
+src/game/board/boardt.h:
+src/game/rules/type_piecet.h:
+src/game/rules/type_squaret.h:
+src/game/rules/types.h:
+src/game/board/listmt.h:
+src/game/board/movet.h:
+src/game/player.h:
+src/game/gamet.h:
+src/game/playert.h:
+src/game/aim/aiminimaxt.h:
+src/game/ai/ait.h:
+src/lang.h:
+src/util/num.h:
+src/util/boolt.h:
+src/game/playert.h:
+src/game/rvalid/rvalid.h:
+src/game/rules/type_piece.h:
+src/game/rules/rulesett.h:
+src/game/rules/type_square.h:

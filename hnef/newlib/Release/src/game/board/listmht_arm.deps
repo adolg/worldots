@@ -1,0 +1,7 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/board/listmht_arm.o: src/game/board/listmht.c \
+ src/game/board/listmht.h src/game/board/moveht.h src/util/boolt.h
+src/game/board/listmht.c:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/util/boolt.h:

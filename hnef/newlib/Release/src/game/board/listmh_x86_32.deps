@@ -1,0 +1,11 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/board/listmh_x86_32.o: src/game/board/listmh.c \
+ src/game/board/listmh.h src/config.h src/util/funct.h \
+ src/game/board/listmht.h src/game/board/moveht.h src/util/boolt.h
+src/game/board/listmh.c:
+src/game/board/listmh.h:
+src/config.h:
+src/util/funct.h:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/util/boolt.h:

@@ -1,0 +1,6 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/aim/aiminimaxt_x86_32.o: \
+ src/game/aim/aiminimaxt.c src/game/aim/aiminimaxt.h
+:
+src/game/aim/aiminimaxt.c:
+src/game/aim/aiminimaxt.h:

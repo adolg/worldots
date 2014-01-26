@@ -1,0 +1,709 @@
+.\" UTF-8 is required.
+.\" groff -D utf-8 -mandoc -Tutf8 <file> | less
+.\"
+.TH hnefatafl 6 "GROFFHT_VERSION" "HNEFATAFL GROFFHT_VERSION"
+.SH NAME
+hnefatafl \- the Norse board game.
+.SH SYNOPSIS
+.BR "hnefatafl " [ -r
+.IR <ruleset> ]
+.RB [ -i
+.IR <interface> ]
+.RB [ -h "] [" -v ]
+.SH DESCRIPTION
+Played at draughts in the garth: right glad they were,
+.br
+Nor aught lacked they of lustrous gold \(em
+.br
+Till maidens three from the thurses came,
+.br
+Awful in might from Jotunheim.
+
+	Prophecy of the Seeress, ca. 400-1100 AD
+.SH OPTIONS
+.TP
+\fB\-r\fR \fI<ruleset>
+Ruleset file. Default:
+.IR GROFFHT_PATH_RC .
+.TP
+\fB\-i\fR \fI<interface>
+User interface.
+.B c
+for command line interface;
+.B x
+for XLib. Default:
+.B x
+(if XLib is available, else
+.BR c ).
+.TP
+.B -h
+Print help and exit immediately.
+.TP
+.B -v
+Print version and exit immediately.
+.\".TP
+.\".B -9
+.\"You can also invoke the program with -9, but don't tell anyone.
+.SH FILES
+.TP
+.I GROFFHT_PATH_RC
+Symbolic link to a ruleset file. This is used as default if no
+.I -r
+parameter is given. You can change the link.
+.TP
+.I GROFFHT_PATH_DATA_RULES/*
+Ruleset files.
+.TP
+.I GROFFHT_PATH_DATA_RULES/*/*.xpm
+Bitmaps for the XLib interface.
+.SH EXIT STATUS
+Returns
+.B EXIT_SUCCESS
+for success or
+.B EXIT_FAILURE
+for any failure.
+.SH EXAMPLES
+.TP
+.B hnefatafl -r /home/user/hnefatafl/tablut -i c
+starts the program with the ruleset specified by
+.I /home/user/hnefatafl/tablut
+using the command line interface.
+.SH SUPPORTED GAMES
+This should not be interpreted as a to do-list. The purpose of the
+program is to play hnefatafl and tablut as well as possible. Very little
+has been done to support Irish, Welsh and other variants of the game,
+mostly because every additional rule slows down the computer player, but
+also to avoid feature bloat.
+
+The following games are supported:
+.RS
+.IP "\fBHnefatafl \fR(11×11 / 13×13):"
+all common variants of hnefatafl are supported. The king is armed and
+captured by enclosure (but it's easy to change). All initial board
+positions are supported.
+.IP "\fBTablut \fR(9×9):"
+the Sami variant tablut, as described by Helmfrid, is supported, but the
+repetition rule (which is a modern invention anyway) differs.
+.RE
+
+The following games are partly supported:
+.RS
+.IP "\fBTawlbwrdd \fR(11×11):"
+tawlbwrdd, as described by Helmfrid, is not supported; partly because
+there is no rule which allows the king to win by moving along the edge
+of the board, and partly because it's not possible to prevent the king
+from moving into certain capture. There is a ruleset for tawlbwrdd's
+initial board position, but it uses ordinary hnefatafl rules.
+.IP "\fBBrandub \fR(7×7):"
+using ordinary hnefatafl rules.
+.IP "\fBArd ri \fR(7×7):"
+using ordinary hnefatafl rules.
+.IP "\fBAlea evangelii \fR(19×19):"
+using ordinary hnefatafl rules. The computer player is very slow at this
+board size.
+.RE
+
+The following games are not supported at all:
+.RS
+.IP "\fBFidchell \fR(7×7):"
+the rules of fidchell are unknown, but it was probably not played like
+hnefatafl since the amount of pieces is the same for both players.
+Therefore no attempt has even been made to recreate it.
+.IP "\fBHalatafl:"
+fox and geese.
+.IP "\fBLudus latrunculorum:"
+Roman board game that is similar to hnefatafl.
+.IP "\fBSeega:"
+Somalian board game that is similar to latrunculi.
+.RE
+.SH RULESETS
+.B General rules
+
+These general rules can not be changed.
+
+If a player can't make a move when it's his turn, he loses the game.
+Note that it does not matter if a player can't make any moves when it's
+not his turn.
+
+.B Syntax
+
+You can only write one command per line.
+
+White spaces and tabulators are condensed to a single space between
+words, unless preceded by
+.BR "\e" .
+Note that you can not use quotation marks to prevent this behavior.
+
+.BR # :
+comment; everything following the symbol, on the same line, is ignored.
+
+.BR "\e" :
+interprets the following symbol literally, or escapes a line break.
+
+.B Arguments
+
+.I path <path>
+.br
+If the interface requires any files, it will look for them in this path
+by simply appending the filename to the
+.I path
+argument. Therefore it always has to end with the path separator.
+
+.I width x
+.br
+Board width. 1 <=
+.I x
+<= 31.
+
+.I height x
+.br
+Board height. 1 <=
+.I x
+<= 31.
+
+.I pieces x...
+.br
+The positions of the pieces on the board at the beginning of the game.
+The board is internally represented as a one-dimensional array, exactly
+like it's declared here. The argument shall be followed by
+.I width
+×
+.I height
+unsigned 8 bit integers, which must all be single bits (1, 2, 4, ...,
+128) or 0 (for an empty square). Every piece in the array must be
+declared with
+.IR "piece bit x" .
+
+.I width
+and
+.I height
+must be declared before
+.IR pieces .
+
+.I squares x...
+.br
+The squares on the board. Like the pieces, it's represented as a
+one-dimensional array of the same length. 0 means that the square is not
+a part of the board and that no piece can ever occupy it. Every square
+in the array must be declared with
+.IR "square bit x" .
+
+.I width
+and
+.I height
+must be declared before
+.IR squares .
+
+.I forbid_repeat
+.br
+Forbids repetition of previous board positions.
+
+.I width
+and
+.I height
+must be declared before
+.IR forbid_repeat .
+
+.B 	Arguments for pieces
+
+.I piece bit x
+.br
+Declares a piece with bit
+.IR x .
+This piece must be in
+.IR pieces .
+You can refer to a piece with
+.I piece x <argument>
+after declaring it.
+
+Pieces take the following arguments:
+
+.I 	capt_edge
+.br
+Specifies that the piece can be captured along the edge of the board.
+Squares adjacent to 0-squares are considered to be edges.
+
+If this argument is present,
+.I capt_sides
+is reduced to the amount of squares surrounding the piece when
+determining if it's captured. If there are only 3 squares adjacent to a
+piece with
+.IR "capt_sides = 4" ,
+then it's temporarily lowered to 3 to allow the piece to be captured.
+
+If it's impossible to surround a piece on both sides, considering the
+.I custodial
+requirement, then that requirement is dropped.
+
+This also has the effect that if a piece, which has to be captured
+custodially, is surrounded on all sides, then it's captured regardless
+if the moving (capturing) piece fulfilled the
+.I custodial
+requirement.
+
+Example (S has
+.IR capt_edge ", " custodial " and " "capt_sides 2" ):
+
+	| M .
+.br
+	| . .
+.br
+	| M .
+
+	| M .
+.br
+	| S .	# S is not captured, since S moved.
+.br
+	| M .
+
+	| M .	# S is captured here, being surrounded on all sides.
+.br
+	| S m	# If \fI!capt_edge\fR, he would not have been captured
+.br
+	| M .	# since m does not fulfill the custodial requirement.
+
+.I 	capt_loss
+.br
+If the player who owns the piece loses all pieces of this type, then he
+loses the game.
+
+.I 	capt_sides x
+.br
+Specifies how many sides that the piece has to be surrounded on to be
+captured. A valid value is 1 <= x <= 4, but note that only 2 and 4 are
+used in tafl and its variants. Default: 2.
+
+.I 	captures x
+.br
+Specifies the other pieces that this piece can capture, as a bitmask.
+All of the pieces must be owned by the opponent. Default: 0.
+
+.I 	custodial
+.br
+Specifies that the piece must be surrounded on both sides, by one of the
+moving pieces, to be captured. This requires that
+.I capt_sides
+is at least 2.
+
+Example (S has
+.IR "capt_sides 2" " and " custodial ):
+
+	. M .
+.br
+	. . .
+.br
+	. M .
+
+	. M .
+.br
+	. S .	# S is not captured, since S moved.
+.br
+	. M .
+
+	. M .
+.br
+	. S m	# S is not captured, since m does not fulfill the
+.br
+	. M .	# custodial requirement.
+
+.I 	dbl_trap
+.br
+Specifies that the piece can trigger double trap, id est that two pieces
+(belonging to the same player), that are adjacent to each other, can
+be captured if both are surrounded.
+
+In a double trap, the
+.I custodial
+requirement may be present, but it is never required that the moving
+piece must be the one who surrounds the piece custodially.
+
+.I 	dbl_trap_capt
+.br
+Specifies that the piece is captured by double trap. Without this, the
+piece can only trigger the trap, but is not captured by it. Requires
+.I dbl_trap
+and that at least some piece owned by the same player has this argument.
+
+.I 	dbl_trap_compl
+.br
+Double trap can not be triggered if both of the surrounded pieces have
+.IR dbl_trap_compl .
+At least one piece in the trap must not have this argument. Requires
+.I dbl_trap
+and that at least some piece owned by the same player does not have this
+argument.
+
+.I 	dbl_trap_edge
+.br
+When double trapping,
+.I capt_edge
+is ignored and this argument is used instead. It works the same way.
+Requires
+.IR dbl_trap .
+
+.I 	dbl_trap_encl
+.br
+If this is specified, then the piece has to be surrounded completely to
+be double trapped. This works as if
+.I capt_sides
+had been 4, and
+.I custodial
+is not present. Requires
+.IR dbl_trap .
+
+If this is not specified, then ordinary capturing rules apply (that is,
+.I capt_sides
+and
+.IR custodial )
+when determining if double trap is triggered.
+
+.I 	escape
+.br
+Specifies that the piece can escape to squares with
+.I escape
+to win the game.
+
+.I 	noreturn x
+.br
+Specifies the squares that the piece may occupy at the start of the
+game, but never return to once he has left them. All squares in
+.I x
+are treated as a unit, meaning that if
+.IR "x = 3" ,
+then the piece may move between squares 1 and 2 without limitation, but
+never move back to 1 or 2 after moving to square 4. Requires that the
+piece may occupy the square according to
+.IR occupies .
+Default: 0.
+
+.I 	occupies x
+.br
+Specifies the squares that the piece is allowed to occupy. Default: 0.
+
+.I 	owner x
+.br
+Specifies the player who owns the piece (0 or 1). There is no default
+\(em this argument is mandatory.
+
+.B 	Arguments for squares
+
+.I square bit x
+.br
+Declares a square with bit
+.IR x .
+This square must be in
+.IR squares .
+You can refer to a square with
+.I square x <argument>
+after declaring it.
+
+Squares take the following arguments:
+
+.I 	captures x
+.br
+Specifies the pieces that the square can capture, as a bitmask. Default:
+0.
+
+When a piece
+.RB ( a )
+moves to a square that is adjacent to an enemy piece
+.RB ( b ),
+and an empty square
+.RB ( c )
+is adjacent to
+.BR b ,
+and the square
+.B c
+can capture
+.BR b ,
+then the square
+.B c
+is considered to be an enemy piece to
+.BR b .
+Note that this requires that the square in question is empty: if there
+is a piece on the square, then that piece's
+.I captures
+is used instead.
+
+.I 	capt_sides x
+.br
+Overrides
+.I capt_sides
+for the piece that is standing on the square to
+.IR x ,
+if
+.I x
+is not 0 (else the square does not have this effect). Requires that
+some piece can occupy the square. Default: 0.
+
+If
+.I x
+is 4, then
+.I custodial
+does not apply. Note that
+.I capt_sides
+for pieces does not work that way (but in all normal rulesets,
+.I capt_sides = 4
+is always used with
+.IR !custodial ,
+hence this behavior).
+
+When double trapping,
+.I dbl_trap_encl
+takes precedence over this setting.
+
+.I 	escape
+.br
+Specifies that pieces with
+.I escape
+can escape to this square to win the game.
+.SH COMPILATION
+You can change compilation settings by editing
+.IR config.mk .
+Then run
+.I make
+followed by
+.I make install
+to compile and install.
+
+The following preprocessor options are available:
+
+.B HT_C99
+.br
+Specifies that the program can be compiled with C99 functions. Else it
+will only use C89.
+
+.B HT_POSIX
+.br
+Specifies that POSIX functions may be used. Without this, the program
+will not automatically create a symbolic link to a default ruleset file
+in your home folder, and you'll have to either create it yourself or
+start the program with the
+.I -r
+parameter.
+
+.B HT_AI_UNSAFE
+.br
+General micro-optimizations that are unlikely to cause problems.
+
+.B HT_AI_MINIMAX
+.br
+Computer player.
+
+.B HT_AI_MINIMAX_UNSAFE
+.br
+Micro-optimizations for the computer player. These are a bit more risky
+(but should cause no problems if there are no bugs in the program).
+
+.B HT_AI_MINIMAX_HASH
+.br
+Enables Zobrist hashing for the computer player.
+
+This feature is essentially useless at search depths below 4.
+
+.B HT_AI_MINIMAX_HASH_MEM_TAB
+.br
+Memory for the hash table in bytes. Minimum 8 MB; recommended 32 MB.
+
+Depending on C implementation and the size of pointers, a hash node
+takes 28 (with 32 bit pointers) or 32 (with 64 bit pointers) bytes.
+The amount of nodes is then rounded to the nearest prime, so the final
+amount of memory allocated may deviate a little from the setting.
+
+.B HT_AI_MINIMAX_HASH_MEM_COL
+.br
+Memory for collision lists for the hash table. Minimum 8 MB; recommended
+at least 48 MB.
+
+The nodes are the same as in
+.B HT_AI_MINIMAX_HASH_MEM_TAB
+but the amount is not rounded.
+
+Running out of memory for collision lists is much more severe than using
+up the hash table memory, because then no more hash nodes will be added
+until the next time the hash table is cleared (which happens at the
+beginning of the computer player's turn).
+
+.B HT_UI_CLI
+.br
+Command line interface.
+
+.B HT_UI_XLIB
+.br
+XLib interface. Requires XLib and the XPM library.
+.SH MINIMAX COMPUTER PLAYER
+The computer player uses a minimax algorithm with α-β pruning, iterative
+deepening and Zobrist hashing.
+
+The computer player takes a search depth parameter, measured in plies.
+As you increase the search depth, the skill level increases along with
+thinking time.
+
+A search depth of at least 4 is recommended for board sizes below 11×11.
+However, a search depth of 5 or more may take a very long time on
+large boards (or slow computers).
+.SH INTERFACE: COMMAND LINE
+The command line interface is pretty self-explanatory. Press
+.I <Enter>
+for help.
+
+Note that it's not possible to force the computer player to make a move
+in the command line interface, because it can't be done without
+sacrificing platform independence.
+.SH INTERFACE: XLIB
+.B Controls
+
+Click the board with the mouse to select and move pieces.
+
+To give commands in XLib, simply type them in. The program beeps
+(provided the operating system supports it) if the command is invalid.
+You can also press
+.I <Escape>
+to cancel a command.
+
+.B 	Force move
+.br
+.IR f :
+force the computer player to stop thinking and make a move.
+
+.B 	Quit
+.br
+.IR q :
+quit the game.
+
+.B 	Change player
+.br
+.IR "p x y z" :
+configures player
+.I x
+(0 or 1)
+to type
+.IR y " (" h " for human, or " m
+for computer player with search depth
+.IR z ).
+
+The argument
+.I z
+is in base 36, id est a number from 1 to Z (Z = 35). If you want to play
+against the computer player in XLib with a higher search depth than 35,
+you'll have to make some modifications to the source code (see
+.I handle_event_key
+in
+.IR src/uix/uix.c ).
+
+.B XPM files
+
+The XPM files can be changed. They have to be named from
+.I s001.xpm
+to
+.I s128.xpm
+for squares, and
+.I p001.xpm
+to
+.I p128.xpm
+for pieces. Only the pieces and squares that have been declared in the
+ruleset file have to be present as XPM files. For example,
+.I piece bit 8
+requires that the file
+.I p008.xpm
+is in the path indicated by
+.IR path .
+The following rules apply:
+
+All squares must have the same size. Squares are always opaque.
+
+Pieces can have any size, as long as they are not larger than the
+squares (they are centered in the squares when painted). Pieces may use
+the color \fBNone \fRfor transparency.
+.SH DIAGNOSTICS
+XLib must be able to find all graphic files for pieces and squares, or
+the program will not start. The path to them is given by the ruleset
+argument
+.IR path ,
+which should be absolute and end with a path separator.
+
+If XLib fails due to a protocol or I/O error, then it should print a
+diagnostic and exit the program in its own fashion.
+.SH DEPENDENCIES
+.B GNU C Library
+.I 2.15
+(running)
+
+.B GNU C Compiler
+.I 4.7.1
+(building)
+
+.B GNU Make
+.I 3.82
+(makefile)
+
+POSIX
+.RB ( HT_POSIX )
+is required for the program to be able to automatically create a
+symbolic link to a default ruleset file in the user's home directory, if
+it doesn't exist. Headers:
+.IR unistd.h .
+
+The XLib interface
+.RB ( HT_UI_XLIB )
+further requires XLib
+.RB ( -lX11 )
+and the XPM library
+.RB ( -lXpm ),
+specifically these headers:
+.IR X11/Xlib.h ", " X11/Xutil.h " and " X11/xpm.h .
+
+For the program to be able to find the file
+.IR $(HOME)/.hnefataflrc ,
+you have to assume that
+.I $(HOME)
+exists, which it does on all POSIX systems. On other operating systems,
+you probably have to write a script that starts the program with the
+.I -r
+invocation parameter to simulate this behavior.
+.SH TRANSLATION
+Edit these files to translate the program to another language:
+.RS
+.IP "\fIsrclang/lang_$(LANGUAGE).c"
+.IP "\fIman/hnefatafl_$(LANGUAGE).6"
+.RE
+
+.I $(LANGUAGE)
+is specified by
+.IR config.mk .
+
+Note that if you change the arguments that the user can give to the
+program as input in
+.IR srclang/lang_*.c ,
+then it must be reflected by the manual
+.RI ( man/hnefatafl_*.6 ).
+However that is strongly discouraged, since the program should behave
+the same way regardless of which language it's in.
+.SH SOURCES
+The giant, whose shoulders I've stood on, should not be blamed for any
+errors that I've made.
+
+.I Hnefatafl \(em the Strategic Board Game of the Vikings
+by
+.IR "Sten Helmfrid" .
+.SH SEE ALSO
+Vǫluspá
+.SH AUTHOR
+Alexander Söderlund <alexander.soderlund
+.I at
+oktv
+.I dot
+se>.
+.SH COPYRIGHT
+Copyright 2013 Alexander Söderlund.
+.SH LICENSE
+License for HNEFATAFL:
+.IR gpl.txt .
+
+License for documentation (including this file):
+.IR fdl.txt .
+.SH WARRANTY
+There is no warranty. The author, copyright holder or contributors
+assume no responsibility for any conceivable damages caused by anything.
+Use at your own risk and don't put your dog in the microwave.
+

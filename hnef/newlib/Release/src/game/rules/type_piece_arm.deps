@@ -1,0 +1,24 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/rules/type_piece_arm.o: \
+ src/game/rules/type_piece.c src/util/num.h src/util/boolt.h src/config.h \
+ src/game/playert.h src/game/aim/aiminimaxt.h src/game/ai/ait.h \
+ src/game/board/boardt.h src/game/rules/types.h \
+ src/game/rules/type_piece.h src/util/funct.h src/game/rules/rulesett.h \
+ src/game/rules/type_piecet.h src/util/boolt.h \
+ src/game/rules/type_squaret.h
+:
+src/game/rules/type_piece.c:
+src/util/num.h:
+src/util/boolt.h:
+src/config.h:
+src/game/playert.h:
+src/game/aim/aiminimaxt.h:
+src/game/ai/ait.h:
+src/game/board/boardt.h:
+src/game/rules/types.h:
+src/game/rules/type_piece.h:
+src/util/funct.h:
+src/game/rules/rulesett.h:
+src/game/rules/type_piecet.h:
+src/util/boolt.h:
+src/game/rules/type_squaret.h:

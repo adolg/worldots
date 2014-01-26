@@ -1,0 +1,724 @@
+.\" UTF-8 krävs.
+.\" groff -D utf-8 -mandoc -Tutf8 <file> | less
+.\"
+.TH hnefatafl 6 "GROFFHT_VERSION" "HNEFATAFL GROFFHT_VERSION"
+.SH NAMN
+hnefatafl \- det norröna brädspelet.
+.SH SAMMANFATTNING
+.BR "hnefatafl " [ -r
+.IR <regelfil> ]
+.RB [ -i
+.IR <gränssnitt> ]
+.RB [ -h "] [" -v ]
+.SH BESKRIVNING
+På gården med brädspel
+.br
+de glada lekte,
+.br
+armod på guld
+.br
+fanns ingalunda,
+.br
+tills tursamöar
+.br
+trenne kommo,
+.br
+mycket mäktiga mör,
+.br
+från jättevärlden.
+
+	Valans spådom, ca. 400-1100 e. Kr.
+.SH ARGUMENT
+.TP
+\fB\-r\fR \fI<regelfil>
+Fil med spelregler. Förval:
+.IR GROFFHT_PATH_RC .
+.TP
+\fB\-i\fR \fI<gränssnitt>
+Användargränssnitt.
+.B c
+för kommandorad;
+.B x
+för XLib. Förval:
+.B x
+(om XLib är tillgängligt, annars
+.BR c ).
+.TP
+.B -h
+Skriv ut hjälp och avsluta omedelbart.
+.TP
+.B -v
+Skriv ut version och avsluta omedelbart.
+.\".TP
+.\".B -9
+.\"Programmet kan även anropas med -9 som argument, men det är hemligt.
+.SH FILER
+.TP
+.I GROFFHT_PATH_RC
+Symbolisk länk till en regelfil. Denna används som förval om ingen
+.IR -r -parameter
+ges. Länken kan ändras.
+.TP
+.I GROFFHT_PATH_DATA_RULES/*
+Regelfiler.
+.TP
+.I GROFFHT_PATH_DATA_RULES/*/*.xpm
+Grafikfiler för XLib-gränssnittet.
+.SH RETURVÄRDE
+Returnerar
+.B EXIT_SUCCESS
+för normalt avslut eller
+.B EXIT_FAILURE
+för alla typer av fel.
+.SH EXEMPEL
+.TP
+.B hnefatafl -r /home/user/hnefatafl/tablut -i c
+kör programmet med spelreglerna som anges i
+.I /home/user/hnefatafl/tablut
+i kommandoradsgränssnittet.
+.SH MÖJLIGA SPELREGLER
+Detta ska inte tolkas som en lista över saker som ska göras. Syftet med
+programmet är att spela hnefatafl och tablut så bra som möjligt. Ytterst
+lite har gjorts för att stödja irländska, walesiska och andra varianter
+av spelet, främst av anledningen att datorspelaren blir långsammare ju
+fler regler man lägger till, men även för att bevara programmet så
+enkelt och litet som möjligt.
+
+Följande spel stöds:
+.RS
+.IP "\fBHnefatafl \fR(11×11 / 13×13):"
+samtliga vanliga varianter av hnefatafl stöds. Kungen får delta i fångst
+och fångas genom att omringas (men det är enkelt att ändra). Alla
+brädesuppställningar är möjliga.
+.IP "\fBTablut \fR(9×9):"
+den samiska varianten tablut som den beskrivs av Helmfrid stöds, men
+upprepningsregeln (som hur som helst är en modern uppfinning) skiljer
+sig.
+.RE
+
+Följande spel stöds delvis:
+.RS
+.IP "\fBTawlbwrdd \fR(11×11):"
+tawlbwrdd som det beskrivs av Helmfrid stöds inte; dels eftersom ingen
+regel finns för att kungen vinner genom att flytta sig längs
+brädeskanten, och dels för att inget stöd finns för att förhindra kungen
+från att flytta till en ruta där han omedelbart kommer fångas. En
+regelfil för tawlbwrdds brädesuppställning finns, men använder sig av
+vanliga hnefatafl-regler.
+.IP "\fBBrandub \fR(7×7):"
+med vanliga hnefatafl-regler.
+.IP "\fBArd ri \fR(7×7):"
+med vanliga hnefatafl-regler.
+.IP "\fBAlea evangelii \fR(19×19):"
+med vanliga hnefatafl-regler. Datorspelaren är dock långsam på denna
+brädesstorlek.
+.RE
+
+Följande spel stöds inte alls:
+.RS
+.IP "\fBFidchell \fR(7×7):"
+reglerna till detta spel är okända men det var förmodligen inte likt
+hnefatafl eftersom antalet pjäser är samma för båda spelarna. Därför har
+inget försök ens gjorts för att återskapa dem.
+.IP "\fBHalatafl:"
+rävspelet.
+.IP "\fBLudus latrunculorum:"
+romerskt brädspel som liknar hnefatafl.
+.IP "\fBSeega:"
+somaliskt brädspel som liknar latrunculi.
+.RE
+.SH REGELFILER
+.B Allmänna regler
+
+Dessa allmänna regler kan inte ändras.
+
+Om en spelare inte har några möjliga drag när det är hans tur, så
+förlorar han. Observera att det inte spelar någon roll om en spelare
+inte kan göra något drag när det inte är hans tur.
+
+.B Syntax
+
+Man skriver ett kommando per rad.
+
+Mellanslag och tabulatorer slås ihop till ett mellanslag mellan varje
+ord, såvida de inte föregås av
+.BR "\e" .
+Observera att man inte kan använda citationstecken för att förebygga det
+beteendet.
+
+.BR # :
+kommentar; allt som följer tecknet på samma rad ignoreras.
+
+.BR "\e" :
+gör att följande tecken läses in utan att tolkas på något speciellt
+sätt, eller sammanfogar raden med nästa om tecknet är sist på raden.
+
+.B Argument
+
+.I path <sökväg>
+.br
+Om gränssnittet behöver några filer så kollar den i denna sökväg, genom
+att helt enkelt lägga till filnamnet på
+.IR path -argumentet.
+Det måste alltså avslutas med sökvägsavskiljartecknet.
+
+.I width x
+.br
+Brädets bredd. 1 <=
+.I x
+<= 31.
+
+.I height x
+.br
+Brädets höjd. 1 <=
+.I x
+<= 31.
+
+.I pieces x...
+.br
+Pjäsernas positioner på brädet vid partiets början. Brädet representeras
+som en endimensionell matris av programmet, exakt som den anges här.
+Argumentet ska följas av
+.I width
+×
+.I height
+antal positiva 8-bitars heltal, som alla måste vara enskilda bitar (1,
+2, 4, ..., 128) eller 0 (för en tom ruta). Varje pjäs som anges måste
+deklareras med
+.IR "piece bit x" .
+
+.I width
+och
+.I height
+måste ha deklarerats innan
+.IR pieces .
+
+.I squares x...
+.br
+Rutorna på brädet. Liksom pjäserna representeras dem av endimensionell
+matris, med samma längd. 0 betyder att rutan inte tillhör brädet och att
+ingen pjäs någonsin kan uppehålla sig på den. Varje ruta som anges måste
+deklareras med
+.IR "square bit x" .
+
+.I width
+och
+.I height
+måste ha deklarerats innan
+.IR squares .
+
+.I forbid_repeat
+.br
+Förbjuder upprepning av brädespositioner.
+
+.I width
+och
+.I height
+måste ha deklarerats innan
+.IR forbid_repeat .
+
+.B 	Argument för pjäser
+
+.I piece bit x
+.br
+Deklarerar en pjäs med bit
+.IR x .
+Denna pjäs måste förekomma i
+.IR pieces .
+Man kan hänvisa till en pjäs med
+.I piece x <argument>
+efter att ha deklarerat den.
+
+Följande argument kan användas som argument för pjäser:
+
+.I 	capt_edge
+.br
+Anger att pjäsen kan fångas längs med brädets kant. Rutor bredvid
+0-rutor anses utgöra kanter.
+
+Om detta argument ges så kan
+.I capt_sides
+minska till antalet rutor som omger pjäsen, när man avgör om den fångas.
+Om det endast finns 3 rutor bredvid en pjäs och
+.I capt_sides
+är 4, så sänks
+.I capt_sides
+tillfälligt till 3 för att pjäsen ska kunna fångas.
+
+Om det är omöjligt att omringa en pjäs på båda sidorna enligt kravet
+.I custodial
+så kan pjäsen fångas ändå.
+
+Detta har också effekten att om en pjäs, som måste fångas enligt
+.IR custodial ,
+omringas på alla sidor så fångas den oavsett om den fångande pjäsen
+uppfyllde
+.IR custodial -kravet.
+
+Exempel (S har
+.IR capt_edge ", " custodial " och " "capt_sides 2" ):
+
+	| M .
+.br
+	| . .
+.br
+	| M .
+
+	| M .
+.br
+	| S .	# S fångas inte, eftersom det var S som flyttade sig.
+.br
+	| M .
+
+	| M .	# Här fångas S eftersom han är omringad på alla sidor.
+.br
+	| S m	# Om \fI!capt_edge\fR, så hade han inte fångats eftersom
+.br
+	| M .	# det inte finns någon pjäs på motsatt sida om m.
+
+.I 	capt_loss
+.br
+Om spelaren som äger pjäsen förlorar alla pjäser av denna typ, så
+förlorar han partiet.
+
+.I 	capt_sides x
+.br
+Anger hur många sidor som pjäsen måste omringas på för att fångas. Ett
+giltigt värde är 1 <= x <= 4, men observera att endast 2 och 4 används i
+tafl och dess varianter. Förval: 2.
+
+.I 	captures x
+.br
+Anger de andra pjäser som pjäsen kan fånga, som en bitmask. Alla
+pjäserna måste tillhöra motståndaren. Förval: 0.
+
+.I 	custodial
+.br
+Anger att pjäsen måste omringas på båda sidorna, av en av de fångande
+pjäserna, för att fångas. Detta kräver att
+.I capt_sides
+är minst 2.
+
+Exempel (S har
+.IR "capt_sides 2" " och " custodial ):
+
+	. M .
+.br
+	. . .
+.br
+	. M .
+
+	. M .
+.br
+	. S .	# S fångas inte, eftersom S flyttade sig.
+.br
+	. M .
+
+	. M .
+.br
+	. S m	# S fångas inte, eftersom ingen annan pjäs är på motsatt
+.br
+	. M .	# sida om m.
+
+.I 	dbl_trap
+.br
+Anger att pjäsen kan utlösa dubbelfångst, alltså att två pjäser
+(tillhörande samma spelare) som står bredvid varandra kan fångas om de
+båda omringas.
+
+Vid dubbelfångst kan kravet på
+.I custodial
+förekomma som vanligt, men kravet på att pjäsen som flyttade sig måste
+vara den som omringar pjäsen på motsatta sidor gäller aldrig.
+
+.I 	dbl_trap_capt
+.br
+Anger att pjäsen fångas vid dubbelfångst. Utan detta så kan pjäsen
+endast utlösa fångsten, men fångas ej. Kräver
+.I dbl_trap
+och att minst någon pjäs som ägs av samma spelare har argumentet.
+
+.I 	dbl_trap_compl
+.br
+Dubbelfångst utlöses ej om båda pjäserna som omringas har
+.IR dbl_trap_compl .
+Det krävs att minst en pjäs som inte har detta argument ingår i
+fångsten. Kräver
+.I dbl_trap
+och att minst någon pjäs som ägs av samma spelare inte har argumentet.
+
+.I 	dbl_trap_edge
+.br
+Vid dubbelfångst bortser man från
+.IR capt_edge ,
+och använder istället detta argument. Det fungerar på samma sätt. Kräver
+.IR dbl_trap .
+
+.I 	dbl_trap_encl
+.br
+Om detta anges så måste pjäsen omringas helt och hållet för att kunna
+utlösa dubbelfångst. Detta fungerar som om
+.I capt_sides
+hade varit 4, och
+.I custodial
+gäller inte. Kräver
+.IR dbl_trap .
+
+Om detta inte har angetts, så gäller ordinarie regler
+(alltså
+.I capt_sides
+och
+.IR custodial )
+för pjäsen när man avgör om den utlöser dubbelfångst.
+
+.I 	escape
+.br
+Anger att pjäsen kan fly till rutor med
+.I escape
+för att vinna partiet.
+
+.I 	noreturn x
+.br
+Anger de rutor som pjäsen får stå på vid partiets början, men icke
+återvända till om han skulle lämna rutorna. Alla rutor i
+.I x
+är sammanhängande i bemärkelsen att om
+.I x = 3
+så får pjäsen flytta sig mellan rutorna 1 och 2 obehindrat, men inte
+tillbaka till 1 eller 2 om han skulle flytta till ruta 4. Kräver att
+pjäsen får stå på rutan över huvud taget enligt
+.IR occupies .
+Förval: 0.
+
+.I 	occupies x
+.br
+Anger de rutor som pjäsen får uppehålla sig på. Förval: 0.
+
+.I 	owner x
+.br
+Anger spelaren (0 eller 1) som äger pjäsen. Inget förval \(em måste
+anges.
+
+.B 	Argument för rutor
+
+.I square bit x
+.br
+Deklarerar en ruta med bit
+.IR x .
+Denna ruta måste förekomma i
+.IR squares .
+Man kan hänvisa till en ruta med
+.I square x <argument>
+efter att ha deklarerat den.
+
+Följande argument kan användas som argument för rutor:
+
+.I 	captures x
+.br
+Anger de andra pjäser som rutan kan fånga, som en bitmask. Förval: 0.
+
+När en pjäs
+.RB ( a )
+flyttar till en ruta bredvid en fiendepjäs
+.RB ( b ),
+och en tom ruta
+.RB ( c )
+är bredvid
+.BR b ,
+och rutan
+.B c
+kan fånga
+.BR b ,
+så räknas rutan
+.B c
+som en fiendepjäs till
+.BR b .
+Observera att detta kräver att rutan i fråga är tom: om det står en pjäs
+på rutan, så gäller den pjäsens
+.I captures
+i stället.
+
+.I 	capt_sides x
+.br
+Ersätter
+.I capt_sides
+för pjäsen som står på rutan till
+.IR x ,
+om
+.I x
+inte är 0 (annars har rutan ingen sådan effekt). Kräver att någon pjäs
+kan stå på rutan. Förval: 0.
+
+Om värdet är 4 så gäller inte
+.IR custodial .
+Observera att
+.I capt_sides
+för pjäser inte fungerar på det sättet (men i alla normala spelregler så
+är
+.I !custodial
+när
+.IR "capt_sides = 4" ,
+därav detta beteende).
+
+Vid dubbelfångst har
+.I dbl_trap_encl
+förtur över denna inställning.
+
+.I 	escape
+.br
+Anger att pjäser med
+.I escape
+kan fly till rutan för att vinna partiet.
+.SH KOMPILERING
+Ställ in
+.I config.mk
+för att ändra kompileringsinställningar. Kör sedan
+.I make
+följt av
+.I make install
+för att kompilera och installera.
+
+Följande inställningar kan ges till preprocessorn:
+
+.B HT_C99
+.br
+Anger att programmet kan kompileras med funktioner från C99-standarden.
+Annars används endast C89.
+
+.B HT_POSIX
+.br
+Anger att POSIX-funktioner får användas. Utan detta kan inte programmet
+skapa en symbolisk länk till en förvald regelfil i användarens
+hemkatalog. I sådana fall får man antingen skapa den själv eller starta
+programmet med
+.IR -r -parametern.
+
+.B HT_AI_UNSAFE
+.br
+Allmänna mikro-optimeringar som sannolikt inte orsakar några problem.
+
+.B HT_AI_MINIMAX
+.br
+Datorspelare.
+
+.B HT_AI_MINIMAX_UNSAFE
+.br
+Mikro-optimeringar för datorspelaren, som är något vågade (men som inte
+bör orsaka problem såvida det inte finns något fel i programmet).
+
+.B HT_AI_MINIMAX_HASH
+.br
+Slår på Zobristhashning för datorspelaren.
+
+Denna funktion har i princip inget värde på sökdjup under 4.
+
+.B HT_AI_MINIMAX_HASH_MEM_TAB
+.br
+Minne för hashtabellen i byte. Minsta tillåtna värde är 8 MB, men 32 MB
+rekommenderas.
+
+Beroende på C-implementering och storlek på pekare tar en hashnod 28 (32
+bitars pekare) eller 32 (64 bitars pekare) byte. Antalet noder avrundas
+sedan till närmsta primtal, så detta värde kan avvika lite från det man
+anger.
+
+.B HT_AI_MINIMAX_HASH_MEM_COL
+.br
+Minnes för kollisionslistor till hashtabellen. Minsta tillåtna värde är
+8 MB, men minst 48 MB rekommenderas.
+
+Noderna som används är desamma som med
+.B HT_AI_MINIMAX_HASH_MEM_TAB
+men ingen avrundning görs.
+
+Att få slut på minne för kollisionslistor är mycket värre än att använda
+upp allt minne för hashtabellen, eftersom inga fler noder kommer att
+kunna läggas till förrän tabellen rensas nästa gång (vilket händer i
+början av datorspelarens tur).
+
+.B HT_UI_CLI
+.br
+Kommandoradsgränssnitt.
+
+.B HT_UI_XLIB
+.br
+XLib-gränssnitt. Kräver XLib och XPM-biblioteket.
+.SH MINIMAX DATORSPELARE
+Datorspelaren använder sig av en minimaxalgoritm med α-β-trimning,
+iterativ fördjupning och Zobristhashning.
+
+Datorspelaren ställs in med en sökdjupsparameter, som avser antal drag
+per spelare. Ju högre sökdjup, desto skickligare, men även desto högre
+tidsåtgång.
+
+Ett sökdjup på minst 4 rekommenderas för brädesstorlekar under 11×11.
+Ha dock i åtanke att ett sökdjup på 5 eller mer kan ta mycket lång tid
+på sig på stora bräden (eller långsamma datorer).
+.SH GRÄNSSNITT: KOMMANDORAD
+Det finns inte mycket att förkunna om kommandoradsgränssnittet; tryck
+på
+.I <Vagnretur>
+för hjälp.
+
+Observera att det inte är möjligt att tvinga datorspelaren att göra ett
+drag i kommandoragsgränssnittet eftersom det inte går att göra utan att
+använda operativsystemspecifika funktioner.
+.SH GRÄNSSNITT: XLIB
+.B Kontroller
+
+Tryck på brädet med musen för att välja och flytta pjäser.
+
+Man ger kommandon i XLib genom att helt enkelt skriva in dem. Skriver
+man fel så piper det (om operativsystemet stöder det) och kommandot
+avbryts. Man kan också trycka på
+.I <Avbryt>
+för att avbryta ett kommando.
+
+.B 	Tvinga drag
+.br
+.IR f :
+tvinga datorspelaren att sluta tänka och göra ett drag.
+
+.B 	Avsluta
+.br
+.IR q :
+avslutar partiet.
+
+.B 	Ändra spelare
+.br
+.IR "p x y z" :
+ställer in spelare
+.I x
+(0 eller 1)
+till typ
+.IR y " (" h " för människa, eller " m
+för datorspelare med sökdjup
+.IR z ).
+
+Argumentet
+.I z
+är i talbas 36, alltså ett nummer mellan 1 till Z (Z = 35). Vill man
+spela mot datorspelaren i XLib med ett högre sökdjup än 35 så får man
+ändra lite i källkoden (se
+.I handle_event_key
+i
+.IR src/uix/uix.c ).
+
+.B XPM-filer
+
+XPM-filerna kan bytas ut. De måste namnges från
+.I s001.xpm
+till
+.I s128.xpm
+för rutor och
+.I p001.xpm
+till
+.I p128.xpm
+för pjäser. Endast de pjäser och rutor som har deklarerats i regelfilen
+behöver finnas som XPM-filer.
+.I piece bit 8
+kräver alltså att filen
+.I p008.xpm
+finns i sökvägen som anges med
+.IR path .
+Följande regler gäller:
+
+Alla rutor måste ha samma storlek. Rutor är ej genomskinliga.
+
+Pjäser får ha vilken storlek som helst, så länge som de inte är större
+än rutorna (de centreras i rutorna när de ritas). Pjäser får använda
+färgen \fBNone \fRför genomskinlighet.
+.SH FELSÖKNING
+XLib måste hitta alla grafikfiler för pjäser och rutor. Annars vägrar
+programmet starta. Sökvägen till dessa anges med regelfilsargumentet
+.IR path ,
+som bör vara absolut och måste avslutas med symbolen för
+sökvägsavskiljning.
+
+Om XLib stöter på ett protokoll- eller I/O-fel så ska det skriva ut ett
+felmeddelande och avsluta programmet på sitt eget vis.
+.SH PROGRAM SOM KRÄVS
+.B GNU C Library
+.I 2.15
+(köra)
+
+.B GNU C Compiler
+.I 4.7.1
+(kompilera)
+
+.B GNU Make
+.I 3.82
+(makefile)
+
+POSIX
+.RB ( HT_POSIX )
+krävs för att programmet automatiskt ska kunna skapa en symbolisk länk
+till en förvald regelfil i användarens hemmapp, om en sådan inte finns.
+Headerfiler:
+.IR unistd.h .
+
+XLib-gränssnittet
+.RB ( HT_UI_XLIB )
+kräver även XLib
+.RB ( -lX11 )
+och XPM-biblioteket
+.RB ( -lXpm ),
+alltså dessa headerfiler:
+.IR X11/Xlib.h ", " X11/Xutil.h " och " X11/xpm.h .
+
+För att programmet ska kunna hitta filen
+.I $(HOME)/.hnefataflrc
+så måste man förutsätta att
+.I $(HOME)
+finns, vilket är fallet på alla POSIX-system. På andra operativsystem
+blir man nog tvungen att skriva ett skript som startar programmet med
+.IR -r -parametern
+för att efterlikna den funktionen.
+.SH ÖVERSÄTTNING
+För att översätta programmet till ett annat språk ändrar man i dessa
+filer:
+.RS
+.IP "\fIsrclang/lang_$(LANGUAGE).c"
+.IP "\fIman/hnefatafl_$(LANGUAGE).6"
+.RE
+
+.I $(LANGUAGE)
+anges i
+.IR config.mk .
+
+Observera att om man ändrar de argument som användaren kan ge till
+programmet i
+.IR srclang/lang_*.c ,
+så måste det reflekteras av manualen
+.RI ( man/hnefatafl_*.6 ).
+Det är dock starkt rekommenderat att inte göra det, eftersom programmet
+helst ska bete sig på samma sätt oavsett vilket språk som används.
+.SH KÄLLOR
+Giganten, vars axlar jag stått på, ska ej sammankopplas med eventuella
+fel som jag har gjort.
+
+.I Hnefatafl \(em the Strategic Board Game of the Vikings
+av
+.IR "Sten Helmfrid" .
+.SH SE ÄVEN
+Vǫluspá
+.SH UPPHOVSMAN
+Alexander Söderlund <alexander.soderlund
+.I snabel-a
+oktv
+.I punkt
+se>.
+.SH UPPHOVSRÄTT
+Upphovsrätten ägs av Alexander Söderlund. Verket skapades 2013.
+.SH LICENS
+Licens för HNEFATAFL:
+.IR gpl.txt .
+
+Licens för dokumentation (inklusive denna fil):
+.IR fdl.txt .
+.SH GARANTI
+Ingen garanti ges. Upphovsmännen och alla andra som har bidragit till
+verkets framställande tar inget ansvar för några som helst tänkbara
+skador, oavsett hur de har uppkommit. Använd programmet på egen risk och
+stoppa inte in hunden i mikrovågsugnen.
+

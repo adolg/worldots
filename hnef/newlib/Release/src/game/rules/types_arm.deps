@@ -1,0 +1,6 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/rules/types_arm.o: src/game/rules/types.c \
+ src/game/rules/types.h src/game/board/boardt.h
+src/game/rules/types.c:
+src/game/rules/types.h:
+src/game/board/boardt.h:

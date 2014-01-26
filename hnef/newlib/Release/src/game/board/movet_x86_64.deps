@@ -1,0 +1,5 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/board/movet_x86_64.o: src/game/board/movet.c \
+ src/game/board/movet.h
+src/game/board/movet.c:
+src/game/board/movet.h:

@@ -1,0 +1,6 @@
+# Updated by fix_deps.py
+newlib/Release/src/uimq/console_arm.o: src/uimq/console.c \
+ src/uimq/console.h src/uimq/queue.h
+src/uimq/console.c:
+src/uimq/console.h:
+src/uimq/queue.h:

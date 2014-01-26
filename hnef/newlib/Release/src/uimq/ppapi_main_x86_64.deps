@@ -1,0 +1,90 @@
+# Updated by fix_deps.py
+newlib/Release/src/uimq/ppapi_main_x86_64.o: src/uimq/ppapi_main.c \
+ src/uimq/ppapi_main.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_var.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_bool.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_macros.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_stdint.h \
+ src/game/game.h src/util/funct.h src/game/gamet.h \
+ src/game/board/listmht.h src/game/board/moveht.h src/util/boolt.h \
+ src/game/rules/rulesett.h src/game/board/boardt.h \
+ src/game/rules/type_piecet.h src/game/rules/type_squaret.h \
+ src/game/rules/types.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/newlib/sys/mount.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_errors.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_module.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb_instance.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_instance.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_resource.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb_messaging.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb_var.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppp.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppp_instance.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_point.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_rect.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_size.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppp_messaging.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/nacl_io/nacl_io.h \
+ /home/adolg/Projects/nacl_sdk/pepper_31//include/sdk_util/macros.h \
+ src/uimq/queue.h src/util/func.h src/util/boolt.h src/util/funct.h \
+ src/invoc.h src/invoct.h src/ui/uit.h src/game/ai/ait.h \
+ src/game/board/movet.h src/uimq/uimqt.h src/io/iogen.h src/invoct.h \
+ src/io/iotextparset.h src/io/iotextparse.h src/game/rreader.h \
+ src/io/iotextparset.h src/game/rvalid/rvalid.h src/game/gamet.h \
+ src/uimq/uimq.h src/config.h src/uimq/uimqt.h
+src/uimq/ppapi_main.c:
+src/uimq/ppapi_main.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_var.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_bool.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_macros.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_stdint.h:
+src/game/game.h:
+src/util/funct.h:
+src/game/gamet.h:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/util/boolt.h:
+src/game/rules/rulesett.h:
+src/game/board/boardt.h:
+src/game/rules/type_piecet.h:
+src/game/rules/type_squaret.h:
+src/game/rules/types.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/newlib/sys/mount.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_errors.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_module.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb_instance.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_instance.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_resource.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb_messaging.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppb_var.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppp.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppp_instance.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_point.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_rect.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/pp_size.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/ppapi/c/ppp_messaging.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/nacl_io/nacl_io.h:
+/home/adolg/Projects/nacl_sdk/pepper_31//include/sdk_util/macros.h:
+src/uimq/queue.h:
+src/util/func.h:
+src/util/boolt.h:
+src/util/funct.h:
+src/invoc.h:
+src/invoct.h:
+src/ui/uit.h:
+src/game/ai/ait.h:
+src/game/board/movet.h:
+src/uimq/uimqt.h:
+src/io/iogen.h:
+src/invoct.h:
+src/io/iotextparset.h:
+src/io/iotextparse.h:
+src/game/rreader.h:
+src/io/iotextparset.h:
+src/game/rvalid/rvalid.h:
+src/game/gamet.h:
+src/uimq/uimq.h:
+src/config.h:
+src/uimq/uimqt.h:

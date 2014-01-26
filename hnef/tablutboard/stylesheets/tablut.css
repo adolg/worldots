@@ -1,0 +1,57 @@
+.tablut-board {
+  margin: 0 auto;
+  position: relative;
+  //background: transparent url(../images/bw-board.gif) no-repeat 0 0;
+  width: 630px;
+  height: 630px;
+}
+
+.tablut-board div {
+  position: absolute;
+  vertical-align: top;
+  width: 70px;
+  height: 70px;
+  padding: 0; margin: 0;
+  z-index: 2;
+  //border-bottom : 1px teal solid;
+  //border-right : 1px teal solid;
+}
+
+.tablut-board .horizontal {
+  border-bottom : 1px teal solid;
+  z-index: 0;
+}
+
+.tablut-board .first {
+  border-top : 1px teal solid;
+  border-left : 1px teal solid;
+}
+
+.tablut-board .vertical {
+  border-right : 1px teal solid;
+  z-index: 0;
+}
+
+.tablut-board .square8 {
+  background: url(../images/bg_dark.png);
+//  margin: 1px;
+  z-index: 1;
+}
+
+.tablut-board .square2 {
+  background: url(../images/bg_light.png);
+  z-index: 1;
+}
+
+.piecea { background: transparent url(../images/blue_pawn.png); }
+.piece2 { background: transparent url(../images/blue_pawn.png); }
+.piecep { background: transparent url(../images/teal_pawn.png); }
+.piece1 { background: transparent url(../images/teal_pawn.png); }
+.tablut-board .piece4 { background: transparent url(../images/teal_queen.png); }
+
+.move-indicator {
+  width: 70px;
+  height: 70px;
+  padding: 0; margin: 0;
+}
+

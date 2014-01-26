@@ -1,0 +1,20 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/rules/type_square_x86_64.o: \
+ src/game/rules/type_square.c src/util/num.h src/util/boolt.h \
+ src/config.h src/game/rules/types.h src/game/board/boardt.h \
+ src/game/rules/type_square.h src/util/funct.h src/game/rules/rulesett.h \
+ src/game/rules/type_piecet.h src/util/boolt.h \
+ src/game/rules/type_squaret.h
+:
+src/game/rules/type_square.c:
+src/util/num.h:
+src/util/boolt.h:
+src/config.h:
+src/game/rules/types.h:
+src/game/board/boardt.h:
+src/game/rules/type_square.h:
+src/util/funct.h:
+src/game/rules/rulesett.h:
+src/game/rules/type_piecet.h:
+src/util/boolt.h:
+src/game/rules/type_squaret.h:

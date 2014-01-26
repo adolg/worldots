@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright (c) 2012 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file.
+-->
+<head>
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="-1">
+  <title>NaCl IO Demo</title>
+  <link rel="stylesheet" href="tablutboard/stylesheets/tablut.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+  <link type="text/css" href="tablutboard/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
+  <script type="text/javascript" src="tablutboard/js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="tablutboard/js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script src="tablutboard/javascripts/tablut2.js" type="text/javascript"></script>
+  <script src="tablutboard/javascripts/application.js" type="text/javascript"></script>
+  <script type="text/javascript" src="common.js"></script>
+  <script type="text/javascript" src="example.js"></script>
+</head>
+<body data-custom-load="true" data-name="hnef" data-tools="newlib glibc pnacl" data-configs="Debug Release" data-path="{tc}/{config}">
+  <h1>NaCl IO Demo</h1>
+  <h2>Status: <code id="statusField">NO-STATUS</code></h2>
+  <div id="wrapper">
+    <div id="game1" class="tablut-container">
+      <h1>1) 9x9 Tablut/Gbyddwyll</h1>
+      <div id="board1" class="board"></div>
+
+      <div id="indicator1" class="move-indicator"></div>
+      <a href="javascript:void(0)" class="back">Back</a> |
+      <a href="javascript:void(0)" class="next">Next</a> |
+      <a href="javascript:void(0)" class="flip">Flip</a>
+      <textarea rows="2" cols="35" class="annot"></textarea>
+    </div>
+  </div>
+  <hr>
+  <p><b>File Operations:</b></p>
+  <div>
+    <span>
+      <input type="radio" id="radiofopen" name="filegroup" checked="checked">fopen
+    </span>
+  </div>
+  <div class="function" id="fopen">
+    <span>
+      Filename:
+      <input type="text" id="fopenFilename">
+      <select id="fopenMode">
+        <option value="r">Read Existing (r)</option>
+        <option value="r+">Read/Write Existing (r+)</option>
+        <option value="w">Write New File (w)</option>
+        <option value="w+">Read/Write New File (w+)</option>
+        <option value="a">Append Write (a)</option>
+        <option value="w+">Append Read/Write (a+)</option>
+      </select>
+      <button>fopen</button>
+    </span>
+  </div>
+
+  <hr>
+  <p><b>Log:</b></p>
+  <pre id="log" style="font-weight: bold"></pre>
+  <!-- The NaCl plugin will be embedded inside the element with id "listener".
+      See common.js.-->
+  <div id="listener"></div>
+</body>
+</html>

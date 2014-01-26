@@ -1,0 +1,41 @@
+# Updated by fix_deps.py
+newlib/Release/src/io/iogen_x86_64.o: src/io/iogen.c src/config.h \
+ src/util/func.h src/util/boolt.h src/util/funct.h src/info.h src/invoc.h \
+ src/util/funct.h src/invoct.h src/util/boolt.h src/ui/uit.h \
+ src/game/ai/ait.h src/game/board/movet.h src/uimq/uimqt.h src/io/iogen.h \
+ src/invoct.h src/io/iotextparset.h src/io/iotextparse.h src/lang.h \
+ src/ui/ui.h src/game/gamet.h src/game/board/listmht.h \
+ src/game/board/moveht.h src/game/rules/rulesett.h \
+ src/game/board/boardt.h src/game/rules/type_piecet.h \
+ src/game/rules/type_squaret.h src/game/rules/types.h src/ui/uit.h \
+ src/uic/uict.h
+src/io/iogen.c:
+src/config.h:
+src/util/func.h:
+src/util/boolt.h:
+src/util/funct.h:
+src/info.h:
+src/invoc.h:
+src/util/funct.h:
+src/invoct.h:
+src/util/boolt.h:
+src/ui/uit.h:
+src/game/ai/ait.h:
+src/game/board/movet.h:
+src/uimq/uimqt.h:
+src/io/iogen.h:
+src/invoct.h:
+src/io/iotextparset.h:
+src/io/iotextparse.h:
+src/lang.h:
+src/ui/ui.h:
+src/game/gamet.h:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/game/rules/rulesett.h:
+src/game/board/boardt.h:
+src/game/rules/type_piecet.h:
+src/game/rules/type_squaret.h:
+src/game/rules/types.h:
+src/ui/uit.h:
+src/uic/uict.h:

@@ -1,0 +1,7 @@
+# Updated by fix_deps.py
+newlib/Release/src/util/num_x86_64.o: src/util/num.c src/util/num.h \
+ src/util/boolt.h src/config.h
+src/util/num.c:
+src/util/num.h:
+src/util/boolt.h:
+src/config.h:

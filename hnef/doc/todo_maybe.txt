@@ -1,0 +1,182 @@
+As you no doubt have noticed, the program is extremely simple. It more
+or less contains everything that I want it to contain at the moment. Any
+other features are optional in my eyes, and should only be implemented
+if it can be done without adding dependencies or too much code.
+
+
+
+Undoing moves
+-------------
+This would be easy to implement.
+
+1.	The undo command takes a move count parameter, id est "undo 5"
+	undoes 5 moves.
+
+	Giving the undo command without such a parameter would attempt
+	to guess whether to undo 1 or 2 moves. If the other player is a
+	computer player, and the player undoing is a human player, then
+	it undoes 2 -- else 1.
+
+	The reason for the count parameter is because otherwise, if you
+	want to undo 50 moves, then 50 games will have to be replayed.
+
+2.	`g->b` is reset to its initial state.
+
+	Then every move from `g->movehist` (up to elemc minus the amount
+	of moves to undo) is replayed in `g->b` using
+	`board_move_unsafe` (the moves must be safe because if they were
+	played in that order before, then it must be possible to play
+	them in the exact same order again).
+
+	Note that we do not have to add every move in
+	`board_move_unsafe` when replaying like this, because we already
+	have the move history. We could allow a `NULL` parameter and not
+	add a move to the history if `NULL`.
+
+	This could all be handled by a generic function in `ui.c`, like
+	the function that handles changing the player controller.
+
+	We could even use `board_move_safe` to see if an invalid move is
+	played when undoing, and if so return an error code. That would
+	be the safest alternative, but slightly slower (not that I think
+	anyone would notice).
+
+	Replaying moves should of course be in its own, separate
+	function, so that saving / loading can also use it when
+	replaying.
+
+	Note that this whole hassle is necessary, because we don't know
+	which pieces were captured, or even if any piece was captured
+	(`moveh->irrev` could be true for some other reason).
+
+	The computer player would also have to clear his hashmap since
+	the old positions are likely to be useless after an undo.
+
+3.	Done! Repaint the whole board in the XLib interface.
+
+4.	In the XLib interface, take a base 36 argument to the key "u"
+	being pressed. If "U" is pressed, then undo cleverly instead of
+	waiting for an argument.
+
+This will of course never support "redo", because we can't use the moves
+between `elemc` and `capc` in the move history in case the user plays a
+different path (why undo the move and play the same path?), and thus
+invalidates the old paths (that is unless several path trees are saved).
+
+Reason:	The only value in this is if you slip when clicking on the
+	board. Undoing moves because you changed your mind is for
+	pussies (maybe it should only be allowed to undo the last move,
+	but on the other hand such arbitrary limitations suck). The
+	value is therefore marginal.
+
+
+
+Saving / loading games
+----------------------
+Like undo, this would be trivial to implement, and could use the replay
+mechanism from undoing moves.
+
+When saving:
+
+1.	Write the move history to a file (`pos` and `dest` on every
+	line, separated by white space), and also write a ruleset ID. So
+	a save file could look like this:
+
+		hnefatafl11_v1	# Ruleset "id" argument.
+		5 6		# pos = 5, dest = 6
+		9 5		# pos = 9, dest = 5
+		...
+
+	For extra safety, we could even write `width`, `height`,
+	`squares`, `pieces` and other ruleset options to the save file
+	(even write the whole ruleset to every save file, and thus not
+	require a ruleset to load a game), but that would increase the
+	size of save files.
+
+	Note that we do not need a boolean flag for `moveh->irrev`,
+	because it will be determined by `board_move_safe` when we
+	replay the game from the pos / dest pairs in the file.
+
+When loading:
+
+1.	Use a `ht_line` to read the file line by line, and for every
+	line, save `pos` and `dest` (if they are valid) into a move
+	history list (`listmh`).
+
+2.	Check that the `id` is the same. We could also save the program
+	version to be extra safe, and print a warning if it's the wrong
+	version.
+
+3.	Replay the whole game as described in the section about undoing
+	moves.
+
+	This should really use `board_move_safe`, and if any move is not
+	allowed, it should abort declaring that the save file contains
+	an invalid move history or doesn't match the ruleset.
+
+Reason:	This would be prone to errors -- not when programming it as much
+	as when using it. However it may be warranted if undo had been
+	implemented, since it would be very little code to add.
+
+	While it would be easy to save and load games in the CLI (just
+	"save <file>" / "load <file>" and try to write to or read from
+	the indicated file), it would be complicated in the XLib
+	interface, which is the preferred interface.
+
+	XLib does not echo as the user types. This is acceptable when
+	writing "p 0 m 4" (they are all single characters and we can
+	`beep()` to indicate failure), but not when typing in a long
+	path like "/home/username/hnefatafl/saves/filename". The text
+	has to be echoed, and therefore a new panel or something has to
+	be added.
+
+	Further, `uix` would probably require a `ht_line` (or similar)
+	for this. As it is now, there is no support whatever for reading
+	strings consisting of more than 1 character.
+
+	We could also load using an invocation parameter, which would
+	obviously work in both interfaces: `-l <savefile>`. This will
+	have to work like the `-r` parameter.
+
+	Unlike undoing moves, this is a somewhat valuable feature that I
+	would like to implement -- but only if it's possible to do it in
+	a really beautiful way (that is without adding 1000 lines of
+	code for it). This should not make the CLI more flexible than
+	XLib.
+
+	One solution would be to make the program able to switch between
+	the CLI and XLib interfaces while running. Then it wouldn't be
+	necessary to implement anything related to saving or loading in
+	XLib. Another solution would be to implement this after network
+	play, since that requires the CLI to always be present on way or
+	another.
+
+
+
+Network play
+------------
+This is very valuable, but would probably require that the program is
+split into two parts: server (which runs the game code, including
+`board.c`) and client (CLI or XLib interface). Obviously some sort of
+CLI must be in the server, and the users must be able to connect to it.
+Thus the most reasonable thing to do here is to make the client start
+the CLI initially, and then offer the option to go into graphics (XLib)
+mode, without restarting the client. Then you can issue commands like
+"connect" and so on in the CLI and you don't have to add such
+functionality in XLib. Then there must clearly also be a command to exit
+the XLib interface, which dumps the user back to the CLI interface in
+the client.
+
+The commands that are sent over the network, once the game has been
+started, can only be an unsigned short integer pair (`move` struct),
+because there is no undo (at the moment), the players can't pass, and
+the players can't resign.
+
+Reason:	I wouldn't know where to start. The program was never intended
+	to work like that, so everything would have to be re-organized
+	completely (though I imagine most of the existing code would
+	work). At the moment there is only hotseat and the computer
+	player (which, by the way, also has to be supported by the
+	server-client architecture), which is pretty boring, so this
+	should probably be done at some point.
+

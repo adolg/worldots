@@ -1,0 +1,9 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/playert_x86_64.o: src/game/playert.c \
+ src/game/playert.h src/game/aim/aiminimaxt.h src/game/ai/ait.h \
+ src/game/board/boardt.h
+src/game/playert.c:
+src/game/playert.h:
+src/game/aim/aiminimaxt.h:
+src/game/ai/ait.h:
+src/game/board/boardt.h:

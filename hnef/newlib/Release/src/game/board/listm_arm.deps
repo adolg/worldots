@@ -1,0 +1,10 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/board/listm_arm.o: src/game/board/listm.c \
+ src/game/board/listm.h src/config.h src/util/funct.h \
+ src/game/board/listmt.h src/game/board/movet.h
+src/game/board/listm.c:
+src/game/board/listm.h:
+src/config.h:
+src/util/funct.h:
+src/game/board/listmt.h:
+src/game/board/movet.h:

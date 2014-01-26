@@ -1,0 +1,32 @@
+2013-09-20
+----------
+*	Fixed a formatting error in the English manual and added contact
+	information.
+
+*	Default optimization level is now `-O3` (for no reason -- I am
+	still convinced `-Ofast` is safe to use) and all compiler
+	warnings are now disabled by default (the build will error out
+	on empty compilation units when building without XLib, or with
+	some other versions of GCC).
+
+*	`cleanall` is now called `mrproper`, according to convention.
+
+2013-05-27
+----------
+*	Additions to `config.mk` and `makefile` to facilitate packaging.
+	`make install` also strips the binary now.
+
+2013-05-24
+----------
+*	`-v` invocation prints more information about compile options.
+
+*	Cleaned up `makefile` and `config.mk*`.
+
+2013-05-15
+----------
+Fixed segmentation fault when starting UIX with no `$DISPLAY`.
+
+2013-05-12
+----------
+Initial version. Undo / saving not implemented.
+

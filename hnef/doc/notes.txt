@@ -1,0 +1,283 @@
+Releasing
+---------
+As final touch ups before releasing:
+
+1.	`grep "TODO" . -d recurse` should return nothing (except for
+	entries in this file).
+
+2.	In `.`, there are no files named:
+
+	*	`TEST*`
+
+	*	`todo*.txt`
+
+	These are reserved for temporary note taking, and should
+	eventually be implemented, removed or go into `doc/*.txt`.
+
+3.	`make testlint` should return no errors (from `splint` anyway,
+	style errors by `cppcheck` can be ignored).
+
+4.	Test with Valgrind.
+
+	The CLI will not have XLib false positives, but test with both.
+
+5.	These (and only these) preprocessor macros should be commented
+	out in `config.mk`:
+
+	*	`MACRO_UNSAFE`
+
+	*	`MACRO_AI_MINIMAX_UNSAFE`
+
+6.	`MACRO_AI_MINIMAX_HASH_MEM_*` should be set to the recommended
+	amount of memory described in the manual page.
+
+7.	`PREFIX` should be `/usr/local`.
+
+8.	`LANGUAGE` should be ärans och hjältarnas språk.
+
+9.	Check `config.mk` to make sure that we're compiling with:
+
+	*	`-O3`
+
+	*	`-fstrict-aliasing -Wstrict-aliasing`
+
+10.	Update `VERSION` to "YYMMDD" as an integer (yes, like the `int`
+	data type).
+
+
+
+Code
+----
+### C89 compliance ###
+*	Identifiers are not unique in the first six symbols.
+
+### Comments ###
+You can `grep` for the following strings in `src`:
+
+*	"TODO" in a comment means to do before release. There should be
+	no "TODO" comments in release code, and you should be able to
+	grep `src/` for "TODO" to find all temporary notes in the source
+	files.
+
+*	"NOTE" in a comment is a note about something important
+	programming-wise, such as non-portable or hard-coded behavior.
+
+*	"splint" in a comment is a comment about a warning suppressed
+	for splint. Similarly, a return value cast to `(void)` exists
+	only to suppress splint warnings.
+
+### Naming ###
+*	Anything that starts with `opt_` is purely for optimization and
+	could be implemented in another -- slower -- way. Code involving
+	`opt_` variables may be less understandable.
+
+
+
+Rulesets
+--------
+### "Ordinary" hnefatafl rules ###
+By "ordinary hnefatafl rules", I refer to the ones used in
+`rules/hnefatafl1*`.
+
+The king is surrounded on 4 sides and can capture Muscovites.
+
+I agree with the skepticism about the use of the word "vápnlausar", and
+I think it was intended as "värnlös" rather than "vapenlös". Also, the
+poem actually says that the Swedes (not the king) are "vápnlausar",
+making the whole argument moot.
+
+
+
+XPM files
+---------
+This is the exact procedure that was used to create the XPM files.
+
+### Color depth ###
+All files are made with a 16 bit color depth X server
+(`startx -- -depth 16`). This is intentional, even though GIMP and
+XPaint complain.
+
+### File names ###
+In the ruleset file, you only get to specify the ruleset directory. The
+program will automatically look for image files for all the square and
+piece bits that you have defined in your ruleset. The following files
+are therefore possible:
+
+RULESET DECLARATION	XPM FILE		DEPICTS BY DEFAULT
+`piece bit 1`		`<path>/p001.xpm`	King
+`piece bit 2`		`<path>/p002.xpm`	Swede
+`piece bit 4`		`<path>/p004.xpm`	Muscovite
+`piece bit 8`		`<path>/p008.xpm`	--
+`piece bit 16`		`<path>/p016.xpm`	--
+`piece bit 32`		`<path>/p032.xpm`	--
+`piece bit 64`		`<path>/p064.xpm`	--
+`piece bit 128`		`<path>/p128.xpm`	--
+`square bit 1`		`<path>/s001.xpm`	Ordinary square
+`square bit 2`		`<path>/s002.xpm`	Escape (corner)
+`square bit 4`		`<path>/s004.xpm`	Throne (middle)
+`square bit 8`		`<path>/s008.xpm`	Muscovite domain
+`square bit 16`		`<path>/s016.xpm`	--
+`square bit 32`		`<path>/s032.xpm`	--
+`square bit 64`		`<path>/s064.xpm`	--
+`square bit 128`	`<path>/s128.xpm`	--
+
+*	"--" means that a graphic has not been made in advance because
+	no pre-defined ruleset needs it; but you can make it yourself.
+
+*	The program will not find a file named `p8.xpm` -- the
+	0-padding is required in filenames (but not when declaring the
+	pieces and squares in the ruleset file).
+
+*	If you declare `piece bit 8`, then `p008.xpm` MUST exist and be
+	a valid XPM file, or the XLib interface will refuse to start.
+
+Carefully note that the number part must be a single 1 bit in an 8 bit
+unsigned bitmask. That means 1, 2, 4, 8, 16, 32, 64 and 128 are allowed,
+but the following are not:
+
+DISALLOWED BIT	REASON
+-128		The bit is signed: the 8th (last) bit should be 128.
+-1		The bit is signed (negative): it should be unsigned.
+0		No bits are set.
+3		Both the 1 and 2 (decimal) bits are set.
+256		9th bit; only 8 are allowed.
+
+### Sizes ###
+I started with 40×40 squares, and made 30×30 pieces for them. Thus each
+piece will have exactly 5 pixels margin in every direction when centered
+on a square.
+
+This was for Tablut (9×9 board). Then I figured smaller boards will need
+larger pieces and larger boards will need smaller pieces.
+
+This is important to know because there will be rounding errors. 30 is
+exactly 3 / 4 out of 40, but we can't have half pixels, and we can't
+have pieces that have uneven width or height (because they will be
+centered). I decided for rounding it like this:
+
+SQUARE	3/4	PIECE	ΔSQUARE	ΔPIECE	PROPORTIONS	% PROPORTIONS
+20	15	14	--	--	3 | 14 | 20	15	| 70
+30	22.5	22	+10	+8	4 | 22 | 30	13.33…	| 73.33…
+40	30	30	+10	+8	5 | 30 | 40	12.5	| 75
+50	37.5	38	+10	+8	6 | 38 | 50	12	| 76
+
+Given that, you should be able to estimate larger and smaller piece and
+square sizes with the same style.
+
+#### Recommended total window size ####
+You are of course free to use XPM files of any size for any ruleset, but
+I used the following rule when determining which XPM files to use with
+which ruleset (only looking at square sizes):
+
+*	The total board size should not exceed 400×400 pixels, and there
+	should also be room for a few pixels margin in every direction
+	(for the progress bar and possibly other things in the future).
+
+*	The total board size should be as close to 400×400 pixels as
+	possible.
+
+Thus we arrive at the following board dimensions and square sizes:
+
+Board dimensions	Square size	Board size	Example
+19×19			20px		380px		Alea Evangelii
+13×13			30px		390px		Hnefatafl (13)
+11×11			30px		330px		Hnefatafl (11)
+9×9			40px		360px		Tablut
+7×7			50px		350px		Ard Ri
+
+### Squares ###
+The square XPM files (`s*`) are made with XPaint.
+
+#### Rules ####
+*	All square XPM files that are used in the same ruleset MUST
+	have the same width and height.
+
+*	Squares don't have to be square -- width != height is allowed.
+
+*	Transparency is not handled for square XPM files. If they use
+	the color `None`, it will be rendered as the background color
+	(black).
+
+#### Instructions ####
+Look at the 40×40 square images to see how they are made.
+
+### Pieces ###
+The piece XPM files (`p*`) are made with XPaint and GIMP.
+
+#### Rules ####
+*	The width and height of all XPM files that are used in the same
+	ruleset MUST be smaller than or equal to the square width and
+	height, respectively.
+
+*	Pieces can have any width and height, and they don't have to
+	equal each other -- as long as no one exceeds the width and
+	height of squares.
+
+*	Transparency is allowed (but optional). If you use the color
+	`None`, it will be transparent.
+
+#### Instructions ####
+1.	In XPaint, draw a black circle outline using the circle tool,
+	and fill it with black color. Save it as XPM.
+
+2.	Open it with GIMP, add an alpha channel, select the white
+	background and delete it, so that there's a black circle on a
+	transparent background.
+
+3.	Invert color, so that the circle is white.
+
+4.	Use the "bevel" effect at 30 (maximum).
+
+5.	In the top left "corner" of the circle, there will be a black
+	area. Remove it by painting over using the pencil tool with
+	white color.
+
+6.	The Swede piece is done. Save as `p002.xpm`.
+
+7.	Copy the Swede piece to `p004.xpm` (Muscovite). Invert the color
+	again (after adding the bevel effect!), so that the circle is
+	black.
+
+8.	Rotate by 180 degrees, so that the light "shadow" created by the
+	bevel effect is in the top left "corner" of the circle.
+
+9.	In the bottom left "corner" of the circle, there may be some
+	white pixels on sizes larger than 14×14. If so, you will see it
+	when you start the game using the squares with brown background.
+	If so, paint over them using the black pencil tool.
+
+10.	The Muscovite piece is done. Save.
+
+11.	Copy `p002.xpm` (Swede) to `p001.xpm` (king). Open `p001.xpm`
+	and paste `p004.xpm` (the Muscovite) over it.
+
+12.	Select and delete parts of the Muscovite piece to form a black
+	cross over the white circle. (The cross will have proper bevel
+	since it's based on the Muscovite piece.)
+
+### Internals ###
+When the pieces are painted, a "dirty rectangles"-like algorithm is used
+to only repaint squares that have to be updated.
+
+The program does not use double-buffering, and therefore uses much less
+memory. The squares that are repainted might flicker noticeably, but
+shouldn't do it annoyingly since the whole board isn't repainted all the
+time. (To see the flicker, try to constantly click on a piece to select
+and deselect it; selection triggers a repaint of the selected square.)
+
+The only images allocated into memory are the `p***.xpm` (pieces) and
+`s***.xpm` (squares) files. Squares are allocated only once because they
+don't support transparency, but pieces with transparent pixels require
+an additional allocation: the transparency clip mask. This is not needed
+in pieces that have no transparent pixels (that do not use the color
+`None`). Pieces that are completely opaque should thus paint slightly
+faster, and use less dynamic (heap) memory (but I don't think there is a
+noticeable difference).
+
+Using images with smaller width and height will make XLib paint faster
+and use less memory. However, even though 81 (9×9) square images will be
+painted in Tablut, only 4 (bits 1, 2, 4 and 8) square bitmap files will
+be allocated in memory, so the memory usage should still be very low.
+Thus the greatest benefit of using smaller images should be in how fast
+the board repaints.
+

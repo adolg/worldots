@@ -1,0 +1,4 @@
+# Updated by fix_deps.py
+newlib/Release/src/config_arm.o: src/config.c src/config.h
+src/config.c:
+src/config.h:

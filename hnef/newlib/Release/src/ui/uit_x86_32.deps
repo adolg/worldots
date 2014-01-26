@@ -1,0 +1,8 @@
+# Updated by fix_deps.py
+newlib/Release/src/ui/uit_x86_32.o: src/ui/uit.c src/ui/uit.h \
+ src/game/ai/ait.h src/game/board/movet.h src/uimq/uimqt.h
+src/ui/uit.c:
+src/ui/uit.h:
+src/game/ai/ait.h:
+src/game/board/movet.h:
+src/uimq/uimqt.h:

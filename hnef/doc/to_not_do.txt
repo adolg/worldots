@@ -1,0 +1,106 @@
+These are features that should NOT be implemented, but have been
+considered and rejected.
+
+*	The program should be kept as small and simple as possible. New
+	features (especially æsthetic ones) should not be implemented
+	lightly.
+
+*	Dependencies should be avoided at all costs, even if required
+	for significant features. This especially applies to GLib and
+	GTK+.
+
+
+
+General
+-------
+### `setlocale` ###
+Reason:	Calling `setlocale` leaks memory when using XLib.
+
+	The only benefit is localized `errno` strings, and they are of
+	little use anyway since `HT_FR` failures always print a message.
+
+### C99 / C11 migration ###
+Performance improvements (such as restricted pointers and inlined
+functions) are the only acceptable features from C99 and C11, and they
+must be completely optional.
+
+In particular, the boolean data type and `snprintf` from C99 should not
+be used, and you are not allowed to use `//` comments.
+
+Reason:	C89 is more portable. Keeping the code up-to-date in 3 different
+	standards is probably not a good idea.
+
+### Multi-threading ###
+Reason:	The only purpose of multi-threading would be to make the XLib
+	interface more responsive (the user doesn't have to wait for a
+	full move to be recursed upon before his XLib input events are
+	processed), but this is an extremely minor feature at a great
+	cost: single-threading is simpler and more efficient.
+
+	Also, the user will hardly play at a search depth that is so
+	slow that it makes the interface unresponsive.
+
+
+
+Build
+-----
+### Autoconf ###
+Reason:	`config.mk` is much simpler.
+
+
+
+HT_AI_MINIMAX
+-------------
+### Time limit for computer player ###
+Reason:	You can already control search depth by toggling it, and you can
+	control thinking time by forcing the computer to move (in XLib).
+
+
+
+HT_UI_CLI
+---------
+### curses ###
+A curses interface could make it possible to interrupt the computer
+player while thinking, and make the CLI a little prettier.
+
+Reason:	The command line interface exists for machines that don't have
+	XLib and XPM. Many of them won't have curses either, and then
+	they won't be able to use the program at all. The entire
+	program, with CLI but without XLib, should depend on nothing but
+	a C compiler. Therefore curses is an unacceptable dependency,
+	unless added as a separate type of interface (while keeping the
+	old CLI).
+
+
+
+HT_UI_XLIB
+----------
+### Error handling ###
+Protocol and I/O error handlers for XLib are not used.
+
+Reason:	`free_uix` may not be allowed to call, for example, `XFreeGC` if
+	XLib has malfunctioned (it may cause a segmentation fault).
+	Therefore the only thing to do if XLib crashes is to terminate
+	the rest of the program with a diagnostic, which is what the
+	default handlers do.
+
+	If XLib thinks it's a good idea to terminate the program, then
+	it can presumably clean up any pixmaps that it has allocated on
+	the server. All memory allocated by the program should be
+	reclaimed by a decent operating system anyway.
+
+### Window name ###
+The window name is set to the name of the ruleset.
+
+Reason:	If the ruleset requires a "name" argument for some other reason
+	(which it doesn't), then this would require very little code to
+	implement. As it is now, it's unnecessary to add another ruleset
+	argument for it.
+
+### Window icon ###
+A window icon of an ægishjálmr would be cool. If so, it should be a
+black symbol with a thin white outline on a circle with a yellow
+background.
+
+Reason:	Unnecessary memory. Not all window managers display it.
+

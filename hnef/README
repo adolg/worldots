@@ -1,0 +1,49 @@
+Svenska
+=======
+
+Installera
+----------
+1.	Anpassa `config.mk` till ditt system.
+
+2.	`make`
+
+3.	`make install`
+
+4.	`make mrproper` (frivilligt: tar bort tillfälliga filer)
+
+Avinstallera
+------------
+Kör `make uninstall` med samma `config.mk` some du använde när du
+installerade programmet.
+
+Uppgradera
+----------
+1.	Avinstallera den gamla versionen.
+
+2.	Installera den nya versionen.
+
+
+
+English
+=======
+
+Install
+-------
+1.	Tune `config.mk` to your system.
+
+2.	`make`
+
+3.	`make install`
+
+4.	`make mrproper` (optional: cleans up temporary build files)
+
+Uninstall
+---------
+`make uninstall` using the `config.mk` that you used when you installed.
+
+Upgrade
+-------
+1.	Uninstall the old version.
+
+2.	Install the new version.
+

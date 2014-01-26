@@ -1,0 +1,84 @@
+#Hnefatafl 13x13
+path	HT_RULES_PATH/30/
+
+width	13
+height	13
+
+pieces \
+0 0 0 0 4 4 4 4 4 0 0 0 0 \
+0 0 0 0 0 0 4 0 0 0 0 0 0 \
+0 0 0 0 0 0 0 0 0 0 0 0 0 \
+0 0 0 0 0 0 2 0 0 0 0 0 0 \
+4 0 0 0 0 0 2 0 0 0 0 0 4 \
+4 0 0 0 0 0 2 0 0 0 0 0 4 \
+4 4 0 2 2 2 1 2 2 2 0 4 4 \
+4 0 0 0 0 0 2 0 0 0 0 0 4 \
+4 0 0 0 0 0 2 0 0 0 0 0 4 \
+0 0 0 0 0 0 2 0 0 0 0 0 0 \
+0 0 0 0 0 0 0 0 0 0 0 0 0 \
+0 0 0 0 0 0 4 0 0 0 0 0 0 \
+0 0 0 0 4 4 4 4 4 0 0 0 0
+
+squares \
+2 1 1 1 1 1 1 1 1 1 1 1 2 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 4 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+1 1 1 1 1 1 1 1 1 1 1 1 1 \
+2 1 1 1 1 1 1 1 1 1 1 1 2
+
+forbid_repeat
+
+# King
+piece bit 1
+piece 1 capt_edge
+piece 1 capt_loss
+piece 1 capt_sides	4
+piece 1 captures	4
+piece 1 dbl_trap
+piece 1 dbl_trap_capt
+piece 1 dbl_trap_edge
+piece 1 dbl_trap_encl
+piece 1 escape
+piece 1 noreturn	4
+piece 1 occupies	7
+piece 1 owner		0
+
+# Swede
+piece bit 2
+piece 2 captures	4
+piece 2 custodial
+piece 2 dbl_trap
+piece 2 dbl_trap_capt
+piece 2 dbl_trap_compl
+piece 2 dbl_trap_edge
+piece 2 dbl_trap_encl
+piece 2 occupies	1
+piece 2 owner		0
+
+# Muscovite
+piece bit 4
+piece 4 captures	3
+piece 4 custodial
+piece 4 occupies	1
+piece 4 owner		1
+
+# Ordinary
+square bit 1
+
+# Corner
+square bit 2
+square 2 captures	7
+square 2 escape
+
+# Throne
+square bit 4
+square 4 captures	7
+

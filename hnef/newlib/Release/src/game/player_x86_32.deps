@@ -1,0 +1,28 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/player_x86_32.o: src/game/player.c \
+ src/game/aim/aiminimax.h src/game/aim/aiminimaxt.h src/util/boolt.h \
+ src/config.h src/util/funct.h src/game/gamet.h src/game/board/listmht.h \
+ src/game/board/moveht.h src/game/rules/rulesett.h \
+ src/game/board/boardt.h src/game/rules/type_piecet.h \
+ src/game/rules/type_squaret.h src/game/rules/types.h src/game/player.h \
+ src/game/gamet.h src/game/playert.h src/game/aim/aiminimaxt.h \
+ src/game/ai/ait.h
+src/game/player.c:
+src/game/aim/aiminimax.h:
+src/game/aim/aiminimaxt.h:
+src/util/boolt.h:
+src/config.h:
+src/util/funct.h:
+src/game/gamet.h:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/game/rules/rulesett.h:
+src/game/board/boardt.h:
+src/game/rules/type_piecet.h:
+src/game/rules/type_squaret.h:
+src/game/rules/types.h:
+src/game/player.h:
+src/game/gamet.h:
+src/game/playert.h:
+src/game/aim/aiminimaxt.h:
+src/game/ai/ait.h:

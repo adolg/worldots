@@ -1,0 +1,4 @@
+# Updated by fix_deps.py
+newlib/Release/src/uimq/queue_x86_32.o: src/uimq/queue.c src/uimq/queue.h
+src/uimq/queue.c:
+src/uimq/queue.h:

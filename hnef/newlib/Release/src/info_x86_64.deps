@@ -1,0 +1,4 @@
+# Updated by fix_deps.py
+newlib/Release/src/info_x86_64.o: src/info.c src/info.h
+src/info.c:
+src/info.h:

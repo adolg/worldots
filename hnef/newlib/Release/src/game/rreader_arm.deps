@@ -1,0 +1,40 @@
+# Updated by fix_deps.py
+newlib/Release/src/game/rreader_arm.o: src/game/rreader.c src/config.h \
+ src/game/game.h src/util/funct.h src/game/gamet.h \
+ src/game/board/listmht.h src/game/board/moveht.h src/util/boolt.h \
+ src/game/rules/rulesett.h src/game/board/boardt.h \
+ src/game/rules/type_piecet.h src/game/rules/type_squaret.h \
+ src/game/rules/types.h src/info.h src/io/iotextparse.h \
+ src/io/iotextparset.h src/lang.h src/game/board/movet.h src/util/num.h \
+ src/util/boolt.h src/game/rreader.h src/io/iotextparset.h \
+ src/game/rreadert.h src/game/rules/ruleset.h src/game/rules/rulesett.h \
+ src/game/rules/type_piece.h src/game/rules/type_square.h \
+ src/game/rules/types.h
+src/game/rreader.c:
+src/config.h:
+src/game/game.h:
+src/util/funct.h:
+src/game/gamet.h:
+src/game/board/listmht.h:
+src/game/board/moveht.h:
+src/util/boolt.h:
+src/game/rules/rulesett.h:
+src/game/board/boardt.h:
+src/game/rules/type_piecet.h:
+src/game/rules/type_squaret.h:
+src/game/rules/types.h:
+src/info.h:
+src/io/iotextparse.h:
+src/io/iotextparset.h:
+src/lang.h:
+src/game/board/movet.h:
+src/util/num.h:
+src/util/boolt.h:
+src/game/rreader.h:
+src/io/iotextparset.h:
+src/game/rreadert.h:
+src/game/rules/ruleset.h:
+src/game/rules/rulesett.h:
+src/game/rules/type_piece.h:
+src/game/rules/type_square.h:
+src/game/rules/types.h:
